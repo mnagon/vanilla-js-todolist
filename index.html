@@ -2,10 +2,52 @@
 <html>
   <head>
     <title>Vanilla js todolist</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     <link href="style.css" rel="stylesheet" />
   </head>
-  <body>
-    <div>come thing here</div>
+  <body class="bg-gray-50">
+    <div class="container mx-auto pt-10 px-3">
+      <h1 class="text-4xl font-bold">Vanilla Js Todolist</h1>
+      <div class="flex mt-12">
+        <input class="w-full p-3 rounded border" type="text" id="todo-input" />
+        <button
+          class="ml-3 p-3 rounded bg-green-700 font-bold text-white"
+          onClick="addTodo()"
+        >
+          Add
+        </button>
+      </div>
+      <nav class="mt-4">
+        <ul class="flex justify-center">
+          <li
+            id="todo-tab"
+            class="cursor-pointer border-b-2 border-green-700"
+            onClick="showTodoList()"
+          >
+            Todo list
+          </li>
+          <li
+            id="complete-tab"
+            class="cursor-pointer border-green-700 ml-4"
+            onClick="showCompleteList()"
+          >
+            Complete list
+          </li>
+        </ul>
+      </nav>
+      <div class="mt-3 shadow p-3 bg-white block" id="todo-list">todo list</div>
+      <div class="mt-3 shadow p-3 bg-white hidden" id="complete-list">
+        complete list
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>

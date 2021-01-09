@@ -1,5 +1,3 @@
-const todo = localStorage.getItem("todo") || [];
-const complete = localStorage.getItem("complete") || [];
 const input = document.getElementById("todo-input");
 const todoTab = document.getElementById("todo-tab");
 const completeTab = document.getElementById("complete-tab");
@@ -32,19 +30,36 @@ function showCompleteList() {
 
 function createTodoItem(todo) {
   const todoItem = document.createElement("div");
-  const doneCheckbox = document.createElement("input");
-  const deleteButton = document.createElement("button");
-  const todoText = document.createElement("span");
-  todoItem.className = "todo__item";
-  doneCheckbox.setAttribute("type", "checkbox");
-  deleteButton.innerHTML = "delete";
-  deleteButton.addEventListener("click", function (e) {
-    addComplete();
+  const checkbox = document.createElement("input");
+  const button = document.createElement("button");
+  const label = document.createElement("label");
+
+  checkbox.setAttribute("type", "checkbox");
+  checkbox.setAttribute("id", todo);
+  button.innerText = "delete";
+  label.innerText = todo;
+  label.setAttribute("for", todo);
+
+  checkbox.addEventListener("change", function (e) {
+    const todoItem = e.target.parentNode;
+    if (this.checked) {
+      moveToCompleteList(todoItem);
+    } else {
+      moveToTodoList(todoItem);
+    }
   });
-  todoText.innerHTML = todo;
-  todoItem.appendChild(doneCheckbox);
-  todoItem.appendChild(todoText);
-  todoItem.appendChild(deleteButton);
+  button.addEventListener("click", function (e) {
+    const todoItem = e.target.parentNode;
+    removeTodo(todoItem);
+  });
+
+  todoItem.className = "flex items-center mt-4 pb-4 border-b";
+  label.className = "w-full mx-3";
+  button.className = "bg-red-500 px-3 rounded text-white";
+
+  todoItem.appendChild(checkbox);
+  todoItem.appendChild(label);
+  todoItem.appendChild(button);
   return todoItem;
 }
 
@@ -54,6 +69,20 @@ function addTodo() {
   const todoItem = createTodoItem(todo);
   todoList.appendChild(todoItem);
   input.value = "";
+  input.focus();
 }
 
-function addComplete() {}
+function removeTodo(todoItem) {
+  const list = todoItem.parentNode;
+  list.removeChild(todoItem);
+}
+
+function moveToTodoList(todoItem) {
+  completeList.removeChild(todoItem);
+  todoList.appendChild(todoItem);
+}
+
+function moveToCompleteList(todoItem) {
+  todoList.removeChild(todoItem);
+  completeList.appendChild(todoItem);
+}
